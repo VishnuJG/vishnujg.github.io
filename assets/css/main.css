@@ -395,8 +395,7 @@ button,
         background-color: #b71824; }
 
         .contentprod {
-          
-          display: none;
+          display: block;
           overflow: hidden;
         }
 /* Form */
@@ -2711,6 +2710,62 @@ body {
     #main .content {
       padding: 1.5rem; } }
 
+/* Override for products section to prevent content constraint */
+#products .content {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+}
+
+/* Override for customers section to prevent content constraint */
+#customers .content {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+}
+
+/* Override for gallery section to prevent content constraint */
+#gallery .content {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+}
+
+/* Override for contentprod class to prevent content constraint */
+.contentprod {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+  overflow: hidden;
+}
+
+/* Override for content divs within contentprod to prevent content constraint */
+.contentprod .content {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+}
+
 /* Menu */
 #menu {
   background-color: #111111;
@@ -2857,3 +2912,395 @@ body.is-menu-visible #menu {
   transform: translateX(0);
   box-shadow: 0 0 1.5rem 0 rgba(0, 0, 0, 0.2);
   visibility: visible; }
+
+/* Fix image overflow issues */
+#products img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Style sub-images within product sections like gallery */
+.contentprod .highlights {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)) !important;
+  gap: 2rem !important;
+  margin: 0 !important;
+}
+
+.contentprod .content {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+}
+
+.contentprod .content:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+.contentprod .content img {
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+  padding: 0;
+  width: 100%;
+  max-width: none;
+}
+
+.contentprod .content:hover img {
+  transform: scale(1.05) !important;
+}
+
+/* Style highlights sections within product divs (not contentprod) */
+#products > .inner > .content > div > .highlights {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)) !important;
+  gap: 2rem !important;
+  margin: 0 !important;
+}
+
+#products > .inner > .content > div > .highlights .content {
+  background: white !important;
+  padding: 1.5rem !important;
+  border-radius: 10px !important;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+  transition: transform 0.3s ease !important;
+  text-align: center !important;
+  min-height: auto !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+
+#products > .inner > .content > div > .highlights .content:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+#products > .inner > .content > div > .highlights .content img {
+  width: 100% !important;
+  height: 250px !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  transition: transform 0.3s ease !important;
+}
+
+#products > .inner > .content > div > .highlights .content:hover img {
+  transform: scale(1.05) !important;
+}
+
+/* Disable zoom effect for products section */
+#products {
+  transform: none !important;
+}
+
+#products * {
+  transform: none !important;
+}
+
+/* Override any inline width/height attributes */
+.contentprod .content img[width],
+.contentprod .content img[height] {
+  width: 100% !important;
+  height: 250px !important;
+}
+
+/* Ensure contentprod sections use full width */
+.contentprod .highlights {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+.contentprod .highlights .content {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* New Product Section Styling */
+.product-container {
+  width: 100%;
+  max-width: none;
+}
+
+.product-item {
+  margin-bottom: 4rem;
+  padding: 2rem;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: all 0.3s ease;
+}
+
+.product-item:hover {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.product-title {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid #8B0000;
+}
+
+.product-main-image {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.product-main-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease;
+}
+
+.product-main-image:hover img {
+  transform: scale(1.02);
+}
+
+.product-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.product-features {
+  background: #f8f9fa;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #8B0000;
+}
+
+.product-features h4 {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.product-features ul {
+  list-style: none;
+  padding: 0;
+}
+
+.product-features li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #e9ecef;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.product-features li:before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: #8B0000;
+  font-weight: bold;
+}
+
+.product-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-item {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.gallery-item:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+
+.gallery-item h4 {
+  margin-top: 0.8rem;
+  font-size: 0.9rem;
+  color: #555;
+  font-weight: 600;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .product-details {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .product-gallery {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .product-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Style highlights section like gallery */
+.highlights {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)) !important;
+  gap: 2rem !important;
+  margin: 0 !important;
+}
+
+.highlights .content {
+  background: white !important;
+  padding: 1.5rem !important;
+  border-radius: 10px !important;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+  transition: transform 0.3s ease !important;
+  text-align: center !important;
+  min-height: auto !important;
+}
+
+.highlights .content:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+}
+
+.highlights .content img {
+  width: 100% !important;
+  height: 250px !important;
+  object-fit: cover !important;
+  border-radius: 8px !important;
+  transition: transform 0.3s ease !important;
+  max-width: none !important;
+  min-width: 100% !important;
+}
+
+.highlights .content:hover img {
+  transform: scale(1.05) !important;
+}
+
+/* Override any inline width/height attributes for highlights */
+.highlights .content img[width],
+.highlights .content img[height] {
+  width: 100% !important;
+  height: 250px !important;
+}
+
+/* New Showcase Section Styling */
+.showcase-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.showcase-item {
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.showcase-item:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.showcase-image {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #8B0000 0%, #2C1810 100%);
+}
+
+.showcase-image img {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+  display: block;
+}
+
+.showcase-item:hover .showcase-image img {
+  transform: scale(1.08);
+}
+
+.showcase-title {
+  padding: 1.5rem;
+  text-align: center;
+  background: white;
+}
+
+.showcase-title h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #333;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+/* Add a subtle overlay effect */
+.showcase-image::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, rgba(139, 0, 0, 0.2) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.showcase-item:hover .showcase-image::before {
+  opacity: 1;
+}
+
+/* Responsive design for showcase */
+@media (max-width: 768px) {
+  .showcase-container {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .showcase-image img {
+    height: 220px;
+  }
+  
+  .showcase-title h3 {
+    font-size: 1.1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .showcase-container {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .showcase-image img {
+    height: 200px;
+  }
+}

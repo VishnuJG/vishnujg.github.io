@@ -23,27 +23,482 @@
 		<link rel="stylesheet" href="assets/css/main.css" />
 		<link href="assets/lightbox2-2.11.3/src/css/lightbox.css" rel="stylesheet" />
 		<link rel="icon" href="images/logo.png">
+		<style>
+			html {
+				scroll-behavior: smooth;
+			}
+			
+			body {
+				padding-top: 80px; /* Account for fixed header */
+			}
+			
+			/* Smooth scrolling for older browsers */
+			.smooth-scroll {
+				scroll-behavior: smooth;
+			}
+			
+			/* New Navigation Styles */
+			.main-nav {
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				background: rgba(45, 45, 45, 0.98);
+				backdrop-filter: blur(10px);
+				z-index: 1000;
+				box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+				transition: all 0.3s ease;
+			}
+			
+			.nav-container {
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 0 2rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				height: 70px;
+			}
+			
+			.nav-logo img {
+				height: 50px;
+				width: auto;
+				transition: transform 0.3s ease;
+			}
+			
+			.nav-logo:hover img {
+				transform: scale(1.05);
+			}
+			
+			.nav-menu {
+				display: flex;
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				gap: 2rem;
+			}
+			
+			.nav-link {
+				text-decoration: none;
+				color: #ffffff;
+				font-weight: 500;
+				font-size: 1rem;
+				padding: 0.5rem 1rem;
+				border-radius: 25px;
+				transition: all 0.3s ease;
+				position: relative;
+			}
+			
+			.nav-link:hover {
+				background: linear-gradient(135deg, #ff6b35, #f7931e);
+				color: white;
+				transform: translateY(-2px);
+				box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+			}
+			
+			.nav-link.active {
+				background: linear-gradient(135deg, #ff6b35, #f7931e);
+				color: white;
+				box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+			}
+			
+			.nav-toggle {
+				display: none;
+				flex-direction: column;
+				cursor: pointer;
+				gap: 4px;
+			}
+			
+			.nav-toggle span {
+				width: 25px;
+				height: 3px;
+				background: #ffffff;
+				border-radius: 2px;
+				transition: all 0.3s ease;
+			}
+			
+			/* Section padding for better scrolling */
+			section {
+				padding: 4rem 0;
+			}
+			
+			/* Ensure proper spacing between sections */
+			.wrapper {
+				margin: 0;
+			}
+			
+			/* Enhanced banner styling */
+			#home {
+				background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+				color: #ffffff;
+				text-align: center;
+				padding: 8rem 0;
+				position: relative;
+				overflow: hidden;
+				min-height: 100vh;
+				display: flex;
+				align-items: center;
+			}
+			
+			#home .inner {
+				position: relative;
+				z-index: 3;
+				animation: fadeInUp 1s ease-out;
+			}
+			
+			#home h1 {
+				font-size: 3.5rem;
+				margin-bottom: 2rem;
+				text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+				animation: slideInDown 1s ease-out;
+			}
+			
+			#home p {
+				font-size: 1.2rem;
+				line-height: 1.8;
+				animation: slideInUp 1s ease-out 0.3s both;
+			}
+			
+			#home video {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				z-index: 1;
+				opacity: 0.8;
+			}
+			
+			#home::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				background: linear-gradient(135deg, rgba(134, 6, 12, 0.771) 0%, rgba(167, 53, 1, 0.7) 100%);
+				z-index: 2;
+				pointer-events: none;
+			}
+			
+			/* Enhanced section styling */
+			.wrapper {
+				position: relative;
+			}
+			
+			.wrapper::before {
+				content: '';
+				position: absolute;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: linear-gradient(45deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+				pointer-events: none;
+			}
+			
+			/* Enhanced highlights section */
+			.highlights {
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+				gap: 2rem;
+				margin-top: 3rem;
+			}
+			
+			.highlights .content {
+				background: white;
+				padding: 2rem;
+				border-radius: 15px;
+				box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+				transition: all 0.3s ease;
+				text-align: center;
+			}
+			
+			.highlights .content:hover {
+				transform: translateY(-10px);
+				box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+			}
+			
+			.highlights img {
+				border-radius: 10px;
+				transition: all 0.3s ease;
+			}
+			
+			.highlights .content:hover img {
+				transform: scale(1.05);
+			}
+			
+			/* Enhanced CTA section */
+			#cta {
+				background: linear-gradient(135deg, rgba(134, 6, 12, 0.771) 0%, rgba(167, 53, 1, 0.7) 100%), url('images/banner.jpg');
+				background-size: cover;
+				background-position: center;
+				background-attachment: fixed;
+				color: white;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			#cta .inner {
+				position: relative;
+				z-index: 2;
+			}
+			
+			/* Enhanced form styling */
+			form input, form select, form textarea {
+				border-radius: 8px;
+				border: 2px solid #e0e0e0;
+				transition: all 0.3s ease;
+			}
+			
+			form input:focus, form select:focus, form textarea:focus {
+				border-color: #4CAF50;
+				box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+				outline: none;
+			}
+			
+			/* Enhanced button styling */
+			.button, input[type="submit"], input[type="reset"] {
+				border-radius: 25px;
+				transition: all 0.3s ease;
+				position: relative;
+				overflow: hidden;
+			}
+			
+			.button:hover, input[type="submit"]:hover, input[type="reset"]:hover {
+				transform: translateY(-2px);
+				box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+			}
+			
+			/* Enhanced footer */
+			#footer {
+				background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+				color: white;
+			}
+			
+			/* Animations */
+			@keyframes fadeInUp {
+				from {
+					opacity: 0;
+					transform: translateY(30px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			
+			@keyframes slideInDown {
+				from {
+					opacity: 0;
+					transform: translateY(-50px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			
+			@keyframes slideInUp {
+				from {
+					opacity: 0;
+					transform: translateY(50px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+			
+			/* Enhanced typography */
+			h2 {
+				position: relative;
+				margin-bottom: 2rem;
+			}
+			
+			h2::after {
+				content: '';
+				position: absolute;
+				bottom: -10px;
+				left: 50%;
+				transform: translateX(-50%);
+				width: 60px;
+				height: 3px;
+				background: linear-gradient(90deg, #4CAF50, #45a049);
+				border-radius: 2px;
+			}
+			
+			/* Enhanced images */
+			img {
+				border-radius: 8px;
+				transition: all 0.3s ease;
+			}
+			
+			/* Enhanced card hover effects - removed to prevent zoom issues */
+			
+			/* Better grid layout for customers and gallery */
+			#customers .highlights {
+				display: grid !important;
+				grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)) !important;
+				gap: 2rem !important;
+				margin: 0 !important;
+			}
+			
+			#gallery .highlights {
+				display: grid !important;
+				grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)) !important;
+				gap: 1.5rem !important;
+				margin: 0 !important;
+			}
+			
+			#customers .content,
+			#gallery .content {
+				padding: 1.5rem !important;
+				min-height: auto !important;
+				background: white !important;
+				border-radius: 10px !important;
+				box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+				transition: transform 0.3s ease !important;
+				text-align: center !important;
+			}
+			
+			#customers .content:hover,
+			#gallery .content:hover {
+				transform: translateY(-5px) !important;
+				box-shadow: 0 10px 25px rgba(0,0,0,0.15) !important;
+			}
+			
+			#customers img {
+				height: 180px !important;
+				object-fit: contain !important;
+				border-radius: 8px !important;
+			}
+			
+			#gallery img {
+				height: 200px !important;
+				object-fit: cover !important;
+				border-radius: 8px !important;
+				width: 100% !important;
+			}
+			
+			#gallery p {
+				margin-top: 1rem !important;
+				font-weight: 600 !important;
+				color: #333 !important;
+				font-size: 0.9rem !important;
+			}
+			
+			/* Responsive improvements */
+			@media (max-width: 768px) {
+				#home h1 {
+					font-size: 2.5rem;
+				}
+				
+				.highlights {
+					grid-template-columns: 1fr;
+				}
+				
+				#gallery .highlights {
+					grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)) !important;
+					gap: 1rem !important;
+				}
+				
+				#gallery img {
+					height: 180px !important;
+				}
+				
+				.nav-container {
+					padding: 0 1rem;
+				}
+				
+				.nav-menu {
+					position: fixed;
+					top: 70px;
+					left: -100%;
+					width: 100%;
+					height: calc(100vh - 70px);
+					background: rgba(45, 45, 45, 0.98);
+					backdrop-filter: blur(10px);
+					flex-direction: column;
+					justify-content: flex-start;
+					align-items: center;
+					padding-top: 2rem;
+					gap: 1rem;
+					transition: left 0.3s ease;
+				}
+				
+				.nav-menu.active {
+					left: 0;
+				}
+				
+				.nav-link {
+					font-size: 1.2rem;
+					padding: 1rem 2rem;
+					width: 80%;
+					text-align: center;
+				}
+				
+				.nav-toggle {
+					display: flex;
+				}
+				
+				.nav-toggle.active span:nth-child(1) {
+					transform: rotate(45deg) translate(5px, 5px);
+				}
+				
+				.nav-toggle.active span:nth-child(2) {
+					opacity: 0;
+				}
+				
+				.nav-toggle.active span:nth-child(3) {
+					transform: rotate(-45deg) translate(7px, -6px);
+				}
+			}
+			
+			@media (max-width: 480px) {
+				#gallery .highlights {
+					grid-template-columns: 1fr !important;
+					gap: 1rem !important;
+				}
+				
+				#gallery .content {
+					padding: 1rem !important;
+				}
+				
+				#gallery img {
+					height: 200px !important;
+				}
+			}
+		</style>
 	</head>
 	<body class="is-preload">
-		<!-- Header -->
-			<header id="header">
-				<a class="logo" href="index.html"><img src="images/logo.png"  width="40%" style="max-width:100%;height:inherit;width:inherit"></a>
-				<div class="logo">
-				<div class="topnav">
-					<div class="topnav-right">
-						<a href="index.html">Home</a>
-						<a href="generic.html">Products</a>
-						<a href="Customers.html">Customers</a>
-						<a href="Gallery.html">Gallery</a>
-						<a href="Contact.html">Contact us</a>
-					</div>
-					</div>
-				  </div>
-			</header>
+		<!-- Navigation -->
+		<nav class="main-nav">
+			<div class="nav-container">
+				<div class="nav-logo">
+					<a href="index.html">
+						<img src="images/logo.png" alt="Surya Engineering Group Logo">
+					</a>
+				</div>
+				<ul class="nav-menu">
+					<li><a href="#home" class="nav-link">Home</a></li>
+					<li><a href="#products" class="nav-link">Products</a></li>
+					<li><a href="#customers" class="nav-link">Customers</a></li>
+					<li><a href="#gallery" class="nav-link">Gallery</a></li>
+					<li><a href="#contact" class="nav-link">Contact</a></li>
+				</ul>
+				<div class="nav-toggle">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+		</nav>
 			
 			
 		<!-- Banner -->
-			<section id="banner">
+			<section id="home">
 				<div class="inner">
 					<h1 style="color:rgba(5, 3, 112, 0.938);text-shadow: -1px -1px 0 #fff, 1px -1px 0 #fff, -1px 1px 0 #fff, 1px 1px 0 #fff;">Surya Engineering Group</h1>
 					<p style="color:rgba(241, 190, 166, 0.637)" >No. 37, (Survey No-23), Nanjappa Layout, Somashettihally, <br/>Chikkabanavara Post, Bengaluru-560090 
@@ -67,61 +522,72 @@
 								</p>
 						</header>
 					</div>
-					<div class="highlights">
-						<section>
-							<div class="content">
-								<header>
-									<a href="images/curvedsheetroofmms2pg.png" data-lightbox="image-1" data-title="Curved sheet Roof MMS"><img src="images/curvedsheetroofmms2pg.png" width="250px" height="250px" style="object-fit: contain"/></a>
-									<h3>Curved sheet <br>Roof MMS </h3>
-								</header>
-								<!--p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus.</p-->
+					<div class="showcase-container">
+						<div class="showcase-item">
+							<div class="showcase-image">
+								<a href="images/curvedsheetroofmms2pg.png" data-lightbox="showcase" data-title="Curved sheet Roof MMS">
+									<img src="images/curvedsheetroofmms2pg.png" alt="Curved sheet Roof MMS"/>
+								</a>
 							</div>
-						</section>
-						<section>
-							<div class="content">
-								<header>
-									<a href="images/Sheet  Roof MMS –  105kWp – at Bengaluru29pg.png" data-lightbox="image-1" data-title="Sheet  Roof MMS –  105kWp"><img src="images/Sheet  Roof MMS –  105kWp – at Bengaluru29pg.png" width="250px" height="250px" style="object-fit: contain"></a>
-									<h3>Sheet  Roof MMS –  105kWp</h3>
-								</header>
-								<!--p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus.</p-->
+							<div class="showcase-title">
+								<h3>Curved sheet Roof MMS</h3>
 							</div>
-						</section>
-						<section>
-							<div class="content">
-								<header>
-									<a href="images/RCC flat Roof MMS –  628kWp – at Aurangabad30pg.png" data-lightbox="image-1" data-title="RCC flat Roof MMS –  628kWp"><img src="images/RCC flat Roof MMS –  628kWp – at Aurangabad30pg.png" width="250px" height="250px" style="object-fit: contain"></a>
-									<h3>RCC flat Roof MMS –  628kWp</h3>
-								</header>
-								<!--p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus.</p-->
+						</div>
+						
+						<div class="showcase-item">
+							<div class="showcase-image">
+								<a href="images/Sheet  Roof MMS –  105kWp – at Bengaluru29pg.png" data-lightbox="showcase" data-title="Sheet Roof MMS – 105kWp">
+									<img src="images/Sheet  Roof MMS –  105kWp – at Bengaluru29pg.png" alt="Sheet Roof MMS – 105kWp"/>
+								</a>
 							</div>
-						</section>
-						<section>
-							<div class="content">
-								<header>
-									<a href="images/pg23img1walkway.png" data-lightbox="image-1" data-title="Walk ways on sheet roof"><img src="images/pg23img1walkway.png" width="250px" height="250px" style="object-fit: contain"></a>
-									<h3>Walk ways on sheet roof</h3>
-								</header>
-								<!--p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus.</p-->
+							<div class="showcase-title">
+								<h3>Sheet Roof MMS – 105kWp</h3>
 							</div>
-						</section>
-						<section>
-							<div class="content">
-								<header>
-									<a href="images/22pg3sheetmounts.png" data-lightbox="image-1" data-title="Standing Seam mount"><img src="images/22pg3sheetmounts.png" width="250px" height="250px" style="object-fit: contain"></a>
-									<h3>Standing Seam mount</h3>
-								</header>
-								<!--p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus.</p-->
+						</div>
+						
+						<div class="showcase-item">
+							<div class="showcase-image">
+								<a href="images/RCC flat Roof MMS –  628kWp – at Aurangabad30pg.png" data-lightbox="showcase" data-title="RCC flat Roof MMS – 628kWp">
+									<img src="images/RCC flat Roof MMS –  628kWp – at Aurangabad30pg.png" alt="RCC flat Roof MMS – 628kWp"/>
+								</a>
 							</div>
-						</section>
-						<section>
-							<div class="content">
-								<header>
-									<a href="images/RCC flat Roof MMS –  Portrait – at Bengaluru32pg.png" data-lightbox="image-1" data-title="RCC flat Roof MMS –  Portrait"><img src="images/RCC flat Roof MMS –  Portrait – at Bengaluru32pg.png" width="250px" height="250px" style="object-fit: contain"></a>
-									<h3>RCC flat Roof MMS –  Portrait</h3>
-								</header>
-								<!--p>Nunc lacinia ante nunc ac lobortis ipsum. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus.</p-->
+							<div class="showcase-title">
+								<h3>RCC flat Roof MMS – 628kWp</h3>
 							</div>
-						</section>
+						</div>
+						
+						<div class="showcase-item">
+							<div class="showcase-image">
+								<a href="images/pg23img1walkway.png" data-lightbox="showcase" data-title="Walk ways on sheet roof">
+									<img src="images/pg23img1walkway.png" alt="Walk ways on sheet roof"/>
+								</a>
+							</div>
+							<div class="showcase-title">
+								<h3>Walk ways on sheet roof</h3>
+							</div>
+						</div>
+						
+						<div class="showcase-item">
+							<div class="showcase-image">
+								<a href="images/22pg3sheetmounts.png" data-lightbox="showcase" data-title="Standing Seam mount">
+									<img src="images/22pg3sheetmounts.png" alt="Standing Seam mount"/>
+								</a>
+							</div>
+							<div class="showcase-title">
+								<h3>Standing Seam mount</h3>
+							</div>
+						</div>
+						
+						<div class="showcase-item">
+							<div class="showcase-image">
+								<a href="images/RCC flat Roof MMS –  Portrait – at Bengaluru32pg.png" data-lightbox="showcase" data-title="RCC flat Roof MMS – Portrait">
+									<img src="images/RCC flat Roof MMS –  Portrait – at Bengaluru32pg.png" alt="RCC flat Roof MMS – Portrait"/>
+								</a>
+							</div>
+							<div class="showcase-title">
+								<h3>RCC flat Roof MMS – Portrait</h3>
+							</div>
+						</div>
 					</div>
 				</div>
 			</section>
@@ -137,11 +603,527 @@
 				</div>
 				<div class="inner">
 					<h2><strong>Design consultants</strong> </h2>
-					<p style="font-size:1.5em;"><a href="https://sites.google.com/view/engineerscitadel/home" target="_blank">Mr. Girish JR (M/s Engineers’ Citadel)</a> – Chartered Mechanical Engineer with over 3 decades of industrial project experience.</p>
+					<p style="font-size:1.5em;text-align: center;"><a href="https://sites.google.com/view/engineerscitadel/home" target="_blank">M/s Engineers' Citadel</a> </p>
 				</div>
 			</section>
 
-		
+		<!-- Products Section -->
+		<section id="products" class="wrapper" style="background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 2rem auto; border-radius: 8px; max-width: 90%;">
+			<div class="inner">
+				<header class="special">
+					<h2 style="text-align:center"><strong>SEG Standard Solar PV MMS products</strong></h2>
+				</header>
+				
+				<div class="product-container">
+					<!-- Product 1a -->
+					<div class="product-item">
+						<h3 class="product-title">1a : Sheet roof, Long Rail system (Modules in Landscape)</h3>
+						<div class="product-main-image">
+							<a href="images/6pgsheetroof.png" data-lightbox="product-1a" data-title="Sheet roof, Long Rail system">
+								<img src="images/6pgsheetroof.png" alt="Sheet roof, Long Rail system"/>
+							</a>
+						</div>
+						
+						<div class="product-details">
+							<div class="product-features">
+								<h4>Features:</h4>
+								<ul>
+									<li>MMS anchored to the roof purlin using suitable Self Dril Screws.</li>
+									<li>Module bottom clearance options of 50mm, 78mm & 110mm till sheet crown flat.</li>
+									<li>EPDM gasket to ensure no leakage</li>
+									<li>MOC of structure: Aluminium alloy, as per IS-733-Grade-63400-WP (6063T6)</li>
+									<li>MOC of all assembly fasteners: Stainless Steel, Grade-SS-304.</li>
+								</ul>
+							</div>
+							
+							<div class="product-gallery">
+								<div class="gallery-item">
+									<a href="images/7pg1.png" data-lightbox="product-1a" data-title="">
+										<img src="images/7pg1.png" alt="Product detail 1"/>
+									</a>
+								</div>
+								<div class="gallery-item">
+									<a href="images/7pg2.png" data-lightbox="product-1a" data-title="">
+										<img src="images/7pg2.png" alt="Product detail 2"/>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Product 1b -->
+					<div class="product-item">
+						<h3 class="product-title">1b : Sheet roof, Short Rail system (Modules in Portrait)</h3>
+						<div class="product-main-image">
+							<a href="images/8pg1.png" data-lightbox="product-1b" data-title="Sheet roof, Short Rail system">
+								<img src="images/8pg1.png" alt="Sheet roof, Short Rail system"/>
+							</a>
+						</div>
+						
+						<div class="product-details">
+							<div class="product-features">
+								<h4>Features:</h4>
+								<ul>
+									<li>MMS anchored to the roof sheet over two crown flats.</li>
+									<li>Module bottom clearance options is of 50mm & 78mm till sheet crown flat.</li>
+									<li>EPDM gasket to ensure no leakage.</li>
+									<li>MOC of structure: Aluminium alloy, as per IS-733-Grade-63400-WP (6063T6)</li>
+									<li>MOC of all assembly fasteners: Stainless Steel, Grade-SS-304.</li>
+								</ul>
+							</div>
+							
+							<div class="product-gallery">
+								<div class="gallery-item">
+									<a href="images/8pg2.png" data-lightbox="product-1b" data-title="">
+										<img src="images/8pg2.png" alt="Product detail 1"/>
+									</a>
+								</div>
+								<div class="gallery-item">
+									<a href="images/9pg1.png" data-lightbox="product-1b" data-title="">
+										<img src="images/9pg1.png" alt="Product detail 2"/>
+									</a>
+								</div>
+								<div class="gallery-item">
+									<a href="images/9pg2.png" data-lightbox="product-1b" data-title="">
+										<img src="images/9pg2.png" alt="Product detail 3"/>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Product 1C -->
+					<div class="product-item">
+						<h3 class="product-title">1C : Tiled Roof top MMS</h3>
+						<div class="product-main-image">
+							<a href="images/10pg2.png" data-lightbox="product-1c" data-title="Tiled Roof top MMS">
+								<img src="images/10pg2.png" alt="Tiled Roof top MMS"/>
+							</a>
+						</div>
+						
+						<div class="product-details">
+							<div class="product-features">
+								<h4>Features:</h4>
+								<ul>
+									<li>MMS anchored to the Rafter of truss OR to RCC roof below the Tiles.</li>
+									<li>Module bottom clearance is about 100mm.</li>
+									<li>Modules can be mounted either in Landscape or Portrait orientations.</li>
+									<li>MOC of structure: Mounting brackets of MS+Galvanised and rails are of Aluminium alloy, as per IS-733-Grade-63400-WP (6063T6)</li>
+									<li>MOC of all assembly fasteners: Stainless Steel, Grade-SS-304.</li>
+								</ul>
+							</div>
+							
+							<div class="product-gallery">
+								<div class="gallery-item">
+									<a href="images/10pg1.png" data-lightbox="product-1c" data-title="">
+										<img src="images/10pg1.png" alt="Product detail 1"/>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Product 1D -->
+					<div class="product-item">
+						<h3 class="product-title">1D : Suitable solutions for all kinds of sheet profiles</h3>
+						<div class="product-main-image">
+							<a href="images/11pg4.png" data-lightbox="product-1d" data-title="Sheet profiles solutions">
+								<img src="images/11pg4.png" alt="Sheet profiles solutions"/>
+							</a>
+						</div>
+						
+						<div class="product-details">
+							<div class="product-gallery">
+								<div class="gallery-item">
+									<a href="images/11pg2.png" data-lightbox="product-1d" data-title="Sinusoidal Asbestos / Metal sheet">
+										<img src="images/11pg2.png" alt="Sinusoidal Asbestos / Metal sheet"/>
+									</a>
+									<h4>Sinusoidal Asbestos / Metal sheet</h4>
+								</div>
+								<div class="gallery-item">
+									<a href="images/11pg1.png" data-lightbox="product-1d" data-title="Trapezoidal sheet">
+										<img src="images/11pg1.png" alt="Trapezoidal sheet"/>
+									</a>
+									<h4>Trapezoidal sheet</h4>
+								</div>
+								<div class="gallery-item">
+									<a href="images/11pg4.png" data-lightbox="product-1d" data-title="Insulated roof sheet">
+										<img src="images/11pg4.png" alt="Insulated roof sheet"/>
+									</a>
+									<h4>Insulated roof sheet</h4>
+								</div>
+								<div class="gallery-item">
+									<a href="images/11pg5.png" data-lightbox="product-1d" data-title="Standing seam double lock roof sheet">
+										<img src="images/11pg5.png" alt="Standing seam double lock roof sheet"/>
+									</a>
+									<h4>Standing seam double lock roof sheet</h4>
+								</div>
+								<div class="gallery-item">
+									<a href="images/11pg3.png" data-lightbox="product-1d" data-title="Simple standing seam clip-lock sheet">
+										<img src="images/11pg3.png" alt="Simple standing seam clip-lock sheet"/>
+									</a>
+									<h4>Simple standing seam clip-lock sheet</h4>
+								</div>
+								<div class="gallery-item">
+									<a href="images/SS mount.jpg" data-lightbox="product-1d" data-title="Simple standing seam clip-lock sheet">
+										<img src="images/SS mount.jpg" alt="Simple standing seam clip-lock sheet"/>
+									</a>
+									<h4>Simple standing seam clip-lock sheet</h4>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Product 1E -->
+					<div class="product-item">
+						<h3 class="product-title">1E : Lateral Tilt, Over tilt & Reverse tilt MMS</h3>
+						<div class="product-main-image">
+							<a href="images/11pgnew1.png" data-lightbox="product-1e" data-title="Lateral Tilt, Over tilt & Reverse tilt MMS">
+								<img src="images/11pgnew1.png" alt="Lateral Tilt, Over tilt & Reverse tilt MMS"/>
+							</a>
+						</div>
+						
+						<div class="product-details">
+							<div class="product-features">
+								<h4>Features:</h4>
+								<ul>
+									<li>MMS anchored to the roof sheet over two crown flats.</li>
+									<li>Module bottom clearance options is of 50mm & 78mm till sheet crown flat.</li>
+									<li>EPDM gasket to ensure no leakage.</li>
+									<li>MOC of structure: Aluminium alloy, as per IS-733-Grade-63400-WP (6063T6)</li>
+									<li>MOC of all assembly fasteners: Stainless Steel, Grade-SS-304.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Customers Section -->
+		<section id="customers" class="wrapper" style="background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 2rem auto; border-radius: 8px; max-width: 90%;">
+			<div class="inner">
+				<header class="special">
+					<h2 style="text-align:center"><strong>Partial List of Customers</strong></h2>
+				</header>
+				<div class="content" style="padding: 2rem 0;">
+					<div class="highlights" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem; margin: 0;">
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg1.png" data-lightbox="customers" data-title=""><img src="images/26pg1.png" style="width: 100%; height: 120px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg2.png" data-lightbox="customers" data-title=""><img src="images/26pg2.png" style="width: 100%; height: 120px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>
+												<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg3.png" data-lightbox="customers" data-title=""><img src="images/26pg3.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg4.png" data-lightbox="customers" data-title=""><img src="images/26pg4.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg5.png" data-lightbox="customers" data-title=""><img src="images/26pg5.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg6.png" data-lightbox="customers" data-title=""><img src="images/26pg6.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg7.png" data-lightbox="customers" data-title=""><img src="images/26pg7.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg8.png" data-lightbox="customers" data-title=""><img src="images/26pg8.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg9.png" data-lightbox="customers" data-title=""><img src="images/26pg9.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/27pg8.png" data-lightbox="customers" data-title=""><img src="images/27pg8.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/27pg1.png" data-lightbox="customers" data-title=""><img src="images/27pg1.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/27pg7.png" data-lightbox="customers" data-title=""><img src="images/27pg7.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/27pg4.png" data-lightbox="customers" data-title=""><img src="images/27pg4.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/27pg2.png" data-lightbox="customers" data-title=""><img src="images/27pg2.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/27pg5.png" data-lightbox="customers" data-title=""><img src="images/27pg5.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/powerone.png" data-lightbox="customers" data-title=""><img src="images/powerone.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/27pg3.png" data-lightbox="customers" data-title=""><img src="images/27pg3.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/26pg10.png" data-lightbox="customers" data-title=""><img src="images/26pg10.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						
+						
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/31pgnew1.png" data-lightbox="customers" data-title=""><img src="images/31pgnew1.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/31pgnew2.png" data-lightbox="customers" data-title=""><img src="images/31pgnew2.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/31pgnew3.png" data-lightbox="customers" data-title=""><img src="images/31pgnew3.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/31pgnew4.png" data-lightbox="customers" data-title=""><img src="images/31pgnew4.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"/></a>
+							</header>
+						</div>
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/31pgnew5.png" data-lightbox="customers" data-title=""><img src="images/31pgnew5.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/31pgnew6.png" data-lightbox="customers" data-title=""><img src="images/31pgnew6.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/techser.png" data-lightbox="customers" data-title=""><img src="images/techser.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/ezolar.png" data-lightbox="customers" data-title=""><img src="images/ezolar.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/digiflic.png" data-lightbox="customers" data-title=""><img src="images/digiflic.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/powergate.png" data-lightbox="customers" data-title=""><img src="images/powergate.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/powerind.svg" data-lightbox="customers" data-title=""><img src="images/powerind.svg" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/dakshenergy.png" data-lightbox="customers" data-title=""><img src="images/dakshenergy.png" style="width: 100%; height: 150px; object-fit: contain; border-radius: 8px;"></a>
+							</header>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Gallery Section -->
+		<section id="gallery" class="wrapper" style="background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 2rem auto; border-radius: 8px; max-width: 90%;">
+			<div class="inner">
+				<header class="special">
+					<h2 style="text-align:center"><strong>Gallery</strong></h2>
+				</header>
+				<div class="content" style="padding: 2rem 0;">
+					<div class="highlights" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem; margin: 0;">
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/28pg1.png" data-lightbox="gallery" data-title="Sheet  Roof MMS –  102kWp – at Bengaluru"><img src="images/28pg1.png" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;"/></a>
+								<p style="margin-top: 1rem; font-weight: 600; color: #333;">Sheet  Roof MMS –  102kWp – at Bengaluru</p>
+							</header>
+						</div>	
+						<div class="content" style="background: white; padding: 1.5rem; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transition: transform 0.3s ease; text-align: center;">
+							<header>
+								<a href="images/29pg1.png" data-lightbox="gallery" data-title="Sheet  Roof MMS –  105kWp – at Bengaluru"><img src="images/29pg1.png" style="width: 100%; height: 180px; object-fit: cover; border-radius: 8px;"/></a>
+								<p style="margin-top: 1rem; font-weight: 600; color: #333;">Sheet  Roof MMS –  105kWp – at Bengaluru</p>
+							</header>
+						</div>
+						<div class="content" >
+							<header>
+								<a href="images/30pg1.png" data-lightbox="gallery" data-title="RCC flat Roof MMS –  628kWp – at Aurangabad"><img src="images/30pg1.png" width="100%" height="100%" style="object-fit: contain"></a>
+								<p>RCC flat Roof MMS –  628kWp – at Aurangabad</p>
+							</header>
+						</div>	
+						<div class="content" >
+							<header>
+								<a href="images/31pg1.png" data-lightbox="gallery" data-title="RCC flat Roof MMS –  340kWp – at Bengaluru"><img src="images/31pg1.png" width="100%" height="100%" style="object-fit: contain"></a>
+								<p>RCC flat Roof MMS –  340kWp – at Bengaluru</p>
+							</header>
+						</div>	
+						<div class="content">
+							<header>
+								<a href="images/32pg1.png" data-lightbox="gallery" data-title="RCC flat Roof MMS –  Portrait – at Bengaluru"><img src="images/32pg1.png" width="100%" height="100%" style="object-fit: contain"/></a>
+								<p>RCC flat Roof MMS –  Portrait – at Bengaluru</p>
+							</header>
+						</div>	
+						<div class="content">
+							<header>
+								<a href="images/33pg1.png" data-lightbox="gallery" data-title="RCC flat Roof MMS –  Portrait – 450kW- -at Guntur"><img src="images/33pg1.png" width="100%" height="100%" style="object-fit: contain"/></a>
+								<p>RCC flat Roof MMS –  Portrait – 450kW- -at Guntur</p>
+							</header>
+						</div>
+						<div class="content" >
+							<header>
+								<a href="images/34pg2.png" data-lightbox="gallery" data-title="Curved sheet Roof MMS –  MH"><img src="images/34pg2.png" width="100%" height="100%" style="object-fit: contain"></a>
+								<p>Curved sheet Roof MMS –  MH</p>
+							</header>
+						</div>	
+						<div class="content" >
+							<header>
+								<a href="images/34pg3.png" data-lightbox="gallery" data-title="Curved sheet Roof MMS –  MH"><img src="images/34pg3.png" width="100%" height="150%" style="object-fit: contain"></a>
+								<p>Curved sheet Roof MMS –  MH</p>
+							</header>
+						</div>	
+						<div class="content" >
+							<header>
+								<a href="images/BG-2.jpg" data-lightbox="gallery" data-title="RCC flat Roof MMS"><img src="images/BG-2.jpg" width="100%" height="100%" style="object-fit: contain"></a>
+								<p>RCC flat Roof MMS</p>
+							</header>
+						</div>	
+						<div class="content" >
+							<header>
+								<a href="images/BG-1.jpg" data-lightbox="gallery" data-title="RCC flat Roof MMS"><img src="images/BG-1.jpg" width="100%" height="100%" style="object-fit: contain"></a>
+								<p>RCC flat Roof MMS</p>
+							</header>
+						</div>	
+						<div class="content">
+							<header>
+								<a href="images/Gal-1-shrl.jpg" data-lightbox="gallery" data-title="Sheet Roof, Short rail MMS"><img src="images/Gal-1-shrl.jpg" width="100%" height="100%" style="object-fit: contain"/></a>
+								<p>Sheet Roof, Short rail MMS</p>
+							</header>
+						</div>	
+						<div class="content">
+							<header>
+								<a href="images/Bg-3.jpg" data-lightbox="gallery" data-title="RCC flat Roof MMS"><img src="images/Bg-3.jpg" width="100%" height="100%" style="object-fit: contain"/></a>
+								<p>RCC flat Roof MMS</p>
+							</header>
+						</div>
+						<div class="content" >
+							<header>
+								<a href="images/BG-4.jpg" data-lightbox="gallery" data-title="Sheet Roof, Long rail MMS"><img src="images/BG-4.jpg" width="100%" height="100%" style="object-fit: contain"></a>
+								<p>Sheet Roof, Long rail MMS</p>
+							</header>
+						</div>	
+						<div class="content" >
+							<header>
+								<a href="images/Bg-5.jpg" data-lightbox="gallery" data-title="Sheet Roof, Long rail MMS"><img src="images/Bg-5.jpg" width="100%" height="150%" style="object-fit: contain"></a>
+								<p>Sheet Roof, Long rail MMS</p>
+							</header>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Contact Section -->
+		<section id="contact" class="wrapper" style="background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin: 2rem auto; border-radius: 8px; max-width: 90%;">
+			<div class="inner">
+				<header class="special">
+					<h2 style="text-align:center"><strong>Contact us</strong></h2>
+				</header>
+				<div class="content">
+					<p style="font-size:1.2em">
+					Satish Kumar T  :	<a href="tel:9844187803">+91 9844187803</a><br/>
+					E-mail     	  :    	<a href="mailto:info@suryaengineeringgroup.com">info@suryaengineeringgroup.com</a><br/>
+					E-mail     	  :    	<a href="mailto:suryaextrusion@gmail.com">suryaextrusion@gmail.com</a><br/>
+					Website  	  :	<a href="www.suryaengineeringgroup.com">www.suryaengineeringgroup.com</a><br/>
+					</p>
+					<iframe style="widows: 50%" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3886.1383376169006!2d77.51984481479417!3d13.09041789077798!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae22e352aedcef%3A0x278fa58adb016b63!2sSurya%20Engineering%20Group!5e0!3m2!1sen!2sin!4v1623938047255!5m2!1sen!2sin" width="100%" height="400px" style="border:0;" allowfullscreen="" loading="lazy" aria-hidden="false" tabindex="0"></iframe>
+				</div>
+				<div class="content">
+					<h3>Enquiry</h3>
+					<form method="post" action="https://getform.io/f/9fd0120e-3643-4cf5-bcb3-096265d58586">
+						<div class="row gtr-uniform">
+							<div class="col-6 col-12-xsmall">
+								<input required type="text" name="name" id="name" value="" placeholder="Name" />
+							</div>
+							<div class="col-6 col-12-xsmall">
+								<input required type="email" name="email" id="email" value="" placeholder="Email" />
+							</div>
+							<!-- Break -->
+							<div class="col-12">
+								<p style="font-size:1.3em">What product do you wish to know about?</p>
+								<select required name="category" id="category">
+									<option value="">- Select -</option>
+									<option value="Sheet roof, Long Rail system (Modules in Landscape)">Sheet roof, Long Rail system (Modules in Landscape)</option>
+									<option value="Sheet roof, Short Rail system (Modules in Portrait)">Sheet roof, Short Rail system (Modules in Portrait)</option>
+									<option value="Tiled Roof top MMS">Tiled Roof top MMS</option>
+									<option value="Suitable solutions for all kinds of sheet profiles">Suitable solutions for all kinds of sheet profiles</option>
+									<option value="Lateral Tilt, Over tilt & Reverse tilt MMS">Lateral Tilt, Over tilt & Reverse tilt MMS</option>
+									<option value="Flat roof , MMS with modules in portrait (1p)">Flat roof , MMS with modules in portrait (1p)</option>
+									<option value="Flat roof , MMS with 2 rows of modules in Portrait orientation (2P)">Flat roof , MMS with 2 rows of modules in Portrait orientation (2P)</option>
+									<option value="Low Roof MMS on Flat RCC Roof : (Ballast concrete block)">Low Roof MMS on Flat RCC Roof : (Ballast concrete block)</option>
+									<option value="E-W sloped MMS">E-W sloped MMS</option>
+									<option value="Sheet Roof Mounts and Clamps">Sheet Roof Mounts and Clamps</option>
+									<option value="Walk ways on sheet roof">Walk ways on sheet roof</option>
+									<option value="Life line on sheet roof">Life line on sheet roof</option>
+									<option value="In-house facilities">In-house facilities</option>
+								</select>
+							</div>
+							<!-- Break -->
+							<div class="col-12">
+								<p style="font-size:1.2em">Leave your message</p>
+								<textarea required name="textarea" id="textarea" placeholder="Type your message here, we will get back to you as soon as possible" rows="6"></textarea>
+							</div>
+							<!-- Break -->
+							<div class="col-12">
+								<ul class="actions">
+									<li><input type="submit" value="Submit Form" class="primary" /></li>
+									<li><input type="reset" value="Reset" /></li>
+								</ul>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</section>
 
 		<!-- Footer -->
 			<footer id="footer">
@@ -150,7 +1132,6 @@
 						<section>
 							<h4>Contact us</h4>
 							<ul class="alt" style="">
-								<li><a href="tel:9481262528">Girish JR	</a></li>
 								<li><a href="tel:9844187803">Satish Kumar T </a></li>
 								<li><a href="mailto:info@suryaengineeringgroup.com">E-mail     	  :    	info@suryaengineeringgroup.com</a></li>
 								<li><a href="mailto:suryaextrusion@gmail.com">E-mail     	  :    	suryaextrusion@gmail.com</a></li>
@@ -166,8 +1147,8 @@
 						</section>
 						<section>
 							<ul class="actions">
-								<li><a href="Contact.html" class="button primary">Enquiry</a></li>
-								<li><a href="generic.html" class="button">Products</a></li>
+								<li><a href="#contact" class="button primary">Enquiry</a></li>
+								<li><a href="#products" class="button">Products</a></li>
 							</ul>
 						</section>
 					</div>
@@ -184,6 +1165,83 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 			<script src="assets/lightbox2-2.11.3/dist/js/lightbox-plus-jquery.js"></script>
+			
+			<script>
+				// Mobile menu toggle
+				const navToggle = document.querySelector('.nav-toggle');
+				const navMenu = document.querySelector('.nav-menu');
+				
+				navToggle.addEventListener('click', function() {
+					navMenu.classList.toggle('active');
+					navToggle.classList.toggle('active');
+				});
+				
+				// Close mobile menu when clicking on a link
+				document.querySelectorAll('.nav-link').forEach(link => {
+					link.addEventListener('click', function() {
+						navMenu.classList.remove('active');
+						navToggle.classList.remove('active');
+					});
+				});
+				
+				// Smooth scrolling for anchor links
+				document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+					anchor.addEventListener('click', function (e) {
+						e.preventDefault();
+						
+						const targetId = this.getAttribute('href');
+						const targetElement = document.querySelector(targetId);
+						
+						if (targetElement) {
+							// Remove active class from all nav links
+							document.querySelectorAll('.nav-link').forEach(link => {
+								link.classList.remove('active');
+							});
+							
+							// Add active class to clicked link
+							this.classList.add('active');
+							
+							// Smooth scroll to target
+							targetElement.scrollIntoView({
+								behavior: 'smooth',
+								block: 'start'
+							});
+						}
+					});
+				});
+				
+				// Highlight active navigation based on scroll position
+				window.addEventListener('scroll', function() {
+					const sections = document.querySelectorAll('section[id]');
+					const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+					
+					let current = '';
+					
+					sections.forEach(section => {
+						const sectionTop = section.offsetTop;
+						const sectionHeight = section.clientHeight;
+						
+						if (pageYOffset >= (sectionTop - 200)) {
+							current = section.getAttribute('id');
+						}
+					});
+					
+					navLinks.forEach(link => {
+						link.classList.remove('active');
+						if (link.getAttribute('href') === '#' + current) {
+							link.classList.add('active');
+						}
+					});
+				});
+				
+				// Set home as active by default
+				document.addEventListener('DOMContentLoaded', function() {
+					const homeLink = document.querySelector('.nav-link[href="#home"]');
+					if (homeLink) {
+						homeLink.classList.add('active');
+					}
+				});
+			</script>
 
 	</body>
 </html>
